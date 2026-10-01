@@ -1,0 +1,86 @@
+<!-- ==========================================================================
+     CARGA LENTA (para pegar en el codigo personalizado del funnel)
+
+     Donde pegarlo en GoHighLevel:
+       Funnel/Website -> Settings -> "Custom Code" o "Tracking Code" -> Footer
+       (o en el paso/pagina concreta: Page Settings -> Footer Code)
+
+     Tambien sirve en cualquier constructor que tenga un campo de "codigo en el
+     footer" o "HTML personalizado".
+
+     Comportamiento: al enviar el formulario, si se cumplen las condiciones
+     (horario y/o azar), muestra "Cargando..." y luego redirige a DESTINO.
+     Si no se cumplen, el formulario funciona normal.
+=========================================================================== -->
+<script>
+(function () {
+  // ===================== CONFIGURACION (edita esto) =====================
+  var DESTINO = "/unirse-al-grupo"; // URL o ruta a la que ir tras la carga
+  var DELAY = 30000;                // duracion del "Cargando..." en ms (30s)
+
+  var USAR_HORARIO = true;          // true = solo dentro de la franja horaria
+  var USAR_AZAR = true;             // true = solo un % de las veces
+  var PROB = 0.30;                  // probabilidad del azar (0.30 = 30%)
+
+  var TZ = "America/Bogota";        // zona horaria de la franja
+  var INICIO = 20 * 60;             // inicio franja en minutos (20:00 = 1200)
+  var FIN = 7 * 60 + 30;            // fin franja en minutos (07:30 = 450)
+  // ======================================================================
+
+  var estilo = document.createElement("style");
+  estilo.textContent = "@keyframes __sp{to{transform:rotate(360deg)}}";
+  document.head.appendChild(estilo);
+
+  function minutosAhora() {
+    try {
+      var f = new Intl.DateTimeFormat("en-GB", {
+        timeZone: TZ, hour12: false, hour: "2-digit", minute: "2-digit"
+      });
+      var h = 0, m = 0;
+      f.formatToParts(new Date()).forEach(function (p) {
+        if (p.type === "hour") h = parseInt(p.value, 10);
+        if (p.type === "minute") m = parseInt(p.value, 10);
+      });
+      if (h === 24) h = 0;
+      return h * 60 + m;
+    } catch (e) {
+      var d = new Date();
+      return d.getHours() * 60 + d.getMinutes();
+    }
+  }
+
+  function enHorario() {
+    var t = minutosAhora();
+    return INICIO <= FIN ? (t >= INICIO && t < FIN) : (t >= INICIO || t < FIN);
+  }
+
+  function debeAplicar() {
+    var pasaHorario = USAR_HORARIO ? enHorario() : true;
+    var pasaAzar = USAR_AZAR ? (Math.random() < PROB) : true;
+    return pasaHorario && pasaAzar;
+  }
+
+  function mostrarCarga() {
+    var o = document.createElement("div");
+    o.style.cssText =
+      "position:fixed;inset:0;background:rgba(255,255,255,.95);" +
+      "display:flex;align-items:center;justify-content:center;" +
+      "z-index:2147483647;font-family:sans-serif;color:#333";
+    o.innerHTML =
+      '<div style="text-align:center">' +
+      '<div style="width:52px;height:52px;border:5px solid #ddd;' +
+      "border-top-color:#555;border-radius:50%;margin:0 auto 18px;" +
+      'animation:__sp 1s linear infinite"></div>' +
+      '<p style="font-size:16px">Cargando...</p></div>';
+    document.body.appendChild(o);
+  }
+
+  document.addEventListener("submit", function (e) {
+    if (!debeAplicar()) return; // fuera de condiciones: envio normal
+    e.preventDefault();
+    e.stopPropagation();
+    mostrarCarga();
+    setTimeout(function () { window.location.href = DESTINO; }, DELAY);
+  }, true);
+})();
+</script>

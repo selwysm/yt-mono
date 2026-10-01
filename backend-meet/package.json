@@ -1,0 +1,28 @@
+{
+  "name": "meet-live-api",
+  "version": "1.0.0",
+  "description": "CLI para crear, programar, ver y finalizar reuniones de Google Meet",
+  "main": "src/index.js",
+  "scripts": {
+    "cuentas": "node src/cuentas-cli.js",
+    "auth": "node src/cuentas-cli.js agregar",
+    "auth-manual": "node src/cuentas-cli.js agregar-manual",
+    "diagnostico": "node src/diagnostico.js",
+    "ver": "node src/ver.js",
+    "vivo": "node src/ver.js vivo",
+    "list": "node src/ver.js todas",
+    "finalizar": "node src/finalizar.js",
+    "end": "node src/finalizar.js",
+    "create": "node src/cli.js create",
+    "sala": "node src/cli.js sala",
+    "status": "node src/cli.js status"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "googleapis": "^175.0.0",
+    "open": "^11.0.1"
+  }
+}

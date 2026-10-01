@@ -1,0 +1,24 @@
+{
+  "name": "zoom-live-api",
+  "version": "1.0.0",
+  "description": "CLI para crear, ver y finalizar reuniones (transmisiones) de Zoom",
+  "main": "src/index.js",
+  "scripts": {
+    "auth": "node src/auth.js",
+    "ver": "node src/ver.js",
+    "vivo": "node src/ver.js vivo",
+    "finalizar": "node src/finalizar.js",
+    "create": "node src/cli.js create",
+    "start": "node src/cli.js start",
+    "status": "node src/cli.js status",
+    "list": "node src/ver.js todas",
+    "end": "node src/finalizar.js",
+    "webinars": "node src/webinars.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  }
+}

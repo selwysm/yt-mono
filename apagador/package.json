@@ -1,0 +1,11 @@
+{
+  "name": "apagador",
+  "version": "1.0.0",
+  "description": "Finaliza automaticamente todas las transmisiones en vivo de YouTube y Zoom durante un periodo",
+  "type": "module",
+  "scripts": {
+    "apagar": "caffeinate -i node src/apagador.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,18 @@
+{
+  "name": "proyecto-universidad-proxy",
+  "version": "1.0.0",
+  "description": "Proxy inverso de mi propio sitio con simulacion de conexion lenta",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "http-proxy-middleware": "^3.0.3"
+  }
+}
